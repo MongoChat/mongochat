@@ -1,12 +1,12 @@
 import axios from "axios";
 import asyncHandler from "express-async-handler";
 import { MongoClient } from "mongodb";
+import generateToken from "./utils/generateToken.js";
 
-const mongoURI = "mongodb://localhost:27017/test";
+// const mongoURI = "mongodb://localhost:27017/test";
 
-export const validateMongoURI = asyncHandler(async (req, res) => {
+const validateURI = async (uri) => {
   try {
-    const { uri } = req.body;
     const parsedUrl = new URL(uri);
     const dbName = parsedUrl.pathname
       ? parsedUrl.pathname.replace("/", "")
@@ -24,17 +24,61 @@ export const validateMongoURI = asyncHandler(async (req, res) => {
     await client.close();
 
     if (dbExists) {
-      return res.status(200).json({
-        message: `success`,
-      });
+      return { statusCode: 200, message: "success" };
     } else {
       throw new Error(`Database ${dbName} does not exist.`);
     }
   } catch (err) {
-    console.log(err);
-    res.status(400).json({
+    return {
+      statusCode: 400,
       message:
         err.codeName === "AtlasError" ? "Invalid MongoDB URI" : err.message,
+    };
+  }
+};
+
+/**
+ * @route   POST /api/mongo/validate-uri
+ * @desc    Validate MongoDB URI by checking if the database exists
+ * @access  Public
+ */
+export const validateMongoURI = asyncHandler(async (req, res) => {
+  const { uri } = req.body;
+  const { statusCode, message } = await validateURI(uri);
+
+  res.status(statusCode).json({ message });
+});
+
+/**
+ * @route   POST /api/mongo/connect
+ * @desc    Connect to MongoDB, validate URI, and return a token if successful
+ * @access  Public
+ */
+export const connectMongoDB = asyncHandler(async (req, res) => {
+  const { uri } = req.body;
+  const { statusCode, message } = await validateURI(uri);
+
+  if (statusCode == 200) {
+    res.status(200).json({
+      token: generateToken(uri),
+      message: "success",
+    });
+  }
+
+  res.status(statusCode).json({ message });
+});
+
+/**
+ * @route   GET /api/test-token
+ * @desc    Test route to check if token is valid
+ * @access  Private
+ */
+export const testToken = asyncHandler(async (req, res) => {
+  try {
+    res.status(200).json({ uri: req.mongoURI });
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
     });
   }
 });
