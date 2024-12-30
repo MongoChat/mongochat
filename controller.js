@@ -2,43 +2,12 @@ import axios from "axios";
 import asyncHandler from "express-async-handler";
 import { MongoClient } from "mongodb";
 import generateToken from "./utils/generateToken.js";
+import { validateURI } from "./utils/common.js";
 
 // const mongoURI = "mongodb://localhost:27017/test";
 
-const validateURI = async (uri) => {
-  try {
-    const parsedUrl = new URL(uri);
-    const dbName = parsedUrl.pathname
-      ? parsedUrl.pathname.replace("/", "")
-      : null;
-
-    if (!dbName) {
-      throw new Error("Database name is not specified in the URI");
-    }
-
-    const client = new MongoClient(uri);
-    await client.connect();
-
-    const databases = await client.db().admin().listDatabases();
-    const dbExists = databases.databases.some((db) => db.name === dbName);
-    await client.close();
-
-    if (dbExists) {
-      return { statusCode: 200, message: "success" };
-    } else {
-      throw new Error(`Database ${dbName} does not exist.`);
-    }
-  } catch (err) {
-    return {
-      statusCode: 400,
-      message:
-        err.codeName === "AtlasError" ? "Invalid MongoDB URI" : err.message,
-    };
-  }
-};
-
 /**
- * @route   POST /api/mongo/validate-uri
+ * @route   POST /api/validate-uri
  * @desc    Validate MongoDB URI by checking if the database exists
  * @access  Public
  */
@@ -50,7 +19,7 @@ export const validateMongoURI = asyncHandler(async (req, res) => {
 });
 
 /**
- * @route   POST /api/mongo/connect
+ * @route   POST /api/connect
  * @desc    Connect to MongoDB, validate URI, and return a token if successful
  * @access  Public
  */
