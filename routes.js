@@ -1,8 +1,8 @@
 import express from "express";
-import { testController } from "./controller.js";
+import { validateMongoURI } from "./controller.js";
 
 const router = express.Router();
 
-router.route("/test").get(testController);
+router.route("/validate-connection-url").post(validateMongoURI);
 
 export default router;

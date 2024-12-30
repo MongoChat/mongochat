@@ -4,20 +4,37 @@ import { MongoClient } from "mongodb";
 
 const mongoURI = "mongodb://localhost:27017/test";
 
-export const testController = asyncHandler(async (req, res) => {
+export const validateMongoURI = asyncHandler(async (req, res) => {
   try {
-    const client = new MongoClient(mongoURI);
+    const { uri } = req.body;
+    const parsedUrl = new URL(uri);
+    const dbName = parsedUrl.pathname
+      ? parsedUrl.pathname.replace("/", "")
+      : null;
+
+    if (!dbName) {
+      throw new Error("Database name is not specified in the URI");
+    }
+
+    const client = new MongoClient(uri);
     await client.connect();
 
-    const db = client.db("test");
-    const collection = db.collection("users");
+    const databases = await client.db().admin().listDatabases();
+    const dbExists = databases.databases.some((db) => db.name === dbName);
+    await client.close();
 
-    const query = { age: { $gt: 25 } };
-    const results = await collection.find(query).toArray();
-
-    res.status(200).json({ results });
-  } catch (error) {
-    console.log(error);
-    throw new Error(error);
+    if (dbExists) {
+      return res.status(200).json({
+        message: `success`,
+      });
+    } else {
+      throw new Error(`Database ${dbName} does not exist.`);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      message:
+        err.codeName === "AtlasError" ? "Invalid MongoDB URI" : err.message,
+    });
   }
 });
