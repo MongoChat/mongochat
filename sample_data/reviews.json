@@ -1,0 +1,142 @@
+[
+  {
+    "_id": 1,
+    "user_id": 1,
+    "product_id": 101,
+    "rating": 5,
+    "review": "Excellent product!"
+  },
+  {
+    "_id": 2,
+    "user_id": 2,
+    "product_id": 101,
+    "rating": 4,
+    "review": "Good quality, but a little overpriced."
+  },
+  {
+    "_id": 3,
+    "user_id": 3,
+    "product_id": 101,
+    "rating": 4,
+    "review": "Very fast shipping and great product."
+  },
+  {
+    "_id": 4,
+    "user_id": 4,
+    "product_id": 102,
+    "rating": 5,
+    "review": "Best phone I have ever used!"
+  },
+  {
+    "_id": 5,
+    "user_id": 5,
+    "product_id": 102,
+    "rating": 3,
+    "review": "Good phone, but could use better battery."
+  },
+  {
+    "_id": 6,
+    "user_id": 6,
+    "product_id": 103,
+    "rating": 3,
+    "review": "Decent headphones, sound quality is average."
+  },
+  {
+    "_id": 7,
+    "user_id": 7,
+    "product_id": 103,
+    "rating": 4,
+    "review": "Pretty good for the price!"
+  },
+  {
+    "_id": 8,
+    "user_id": 8,
+    "product_id": 104,
+    "rating": 5,
+    "review": "Love this! It works as advertised."
+  },
+  {
+    "_id": 9,
+    "user_id": 9,
+    "product_id": 104,
+    "rating": 4,
+    "review": "Very comfortable but slightly heavy."
+  },
+  {
+    "_id": 10,
+    "user_id": 10,
+    "product_id": 105,
+    "rating": 5,
+    "review": "Absolutely love this product!"
+  },
+  {
+    "_id": 11,
+    "user_id": 1,
+    "product_id": 106,
+    "rating": 5,
+    "review": "Perfect size and great quality!"
+  },
+  {
+    "_id": 12,
+    "user_id": 3,
+    "product_id": 106,
+    "rating": 4,
+    "review": "Good quality but a little loud."
+  },
+  {
+    "_id": 13,
+    "user_id": 4,
+    "product_id": 107,
+    "rating": 5,
+    "review": "Amazing sound! Worth every penny."
+  },
+  {
+    "_id": 14,
+    "user_id": 5,
+    "product_id": 107,
+    "rating": 4,
+    "review": "Good sound, but not enough bass."
+  },
+  {
+    "_id": 15,
+    "user_id": 6,
+    "product_id": 108,
+    "rating": 3,
+    "review": "Nice, but doesn’t blend well enough."
+  },
+  {
+    "_id": 16,
+    "user_id": 2,
+    "product_id": 109,
+    "rating": 5,
+    "review": "Super easy to use and fast!"
+  },
+  {
+    "_id": 17,
+    "user_id": 7,
+    "product_id": 110,
+    "rating": 4,
+    "review": "Works great but can be a bit loud."
+  },
+  {
+    "_id": 18,
+    "user_id": 8,
+    "product_id": 110,
+    "rating": 5,
+    "review": "Highly recommend, great quality."
+  },
+  {
+    "_id": 19,
+    "user_id": 9,
+    "product_id": 111,
+    "rating": 3,
+    "review": "A bit too small for my needs."
+  },
+  {
+    "_id": 20,
+    "user_id": 10,
+    "product_id": 112,
+    "rating": 4,
+    "review": "Very good, although it could be more durable."
+  }
+]

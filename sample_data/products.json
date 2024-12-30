@@ -1,0 +1,142 @@
+[
+  {
+    "_id": 101,
+    "name": "Laptop",
+    "category": "Electronics",
+    "price": 1000.0,
+    "stock": 50
+  },
+  {
+    "_id": 102,
+    "name": "Phone",
+    "category": "Electronics",
+    "price": 800.0,
+    "stock": 100
+  },
+  {
+    "_id": 103,
+    "name": "Headphones",
+    "category": "Electronics",
+    "price": 150.0,
+    "stock": 150
+  },
+  {
+    "_id": 104,
+    "name": "Smart Watch",
+    "category": "Electronics",
+    "price": 250.0,
+    "stock": 200
+  },
+  {
+    "_id": 105,
+    "name": "TV",
+    "category": "Electronics",
+    "price": 600.0,
+    "stock": 30
+  },
+  {
+    "_id": 106,
+    "name": "Refrigerator",
+    "category": "Appliances",
+    "price": 1200.0,
+    "stock": 50
+  },
+  {
+    "_id": 107,
+    "name": "Washing Machine",
+    "category": "Appliances",
+    "price": 700.0,
+    "stock": 70
+  },
+  {
+    "_id": 108,
+    "name": "Blender",
+    "category": "Appliances",
+    "price": 100.0,
+    "stock": 150
+  },
+  {
+    "_id": 109,
+    "name": "Air Conditioner",
+    "category": "Appliances",
+    "price": 450.0,
+    "stock": 20
+  },
+  {
+    "_id": 110,
+    "name": "Coffee Maker",
+    "category": "Appliances",
+    "price": 80.0,
+    "stock": 200
+  },
+  {
+    "_id": 111,
+    "name": "Couch",
+    "category": "Furniture",
+    "price": 500.0,
+    "stock": 60
+  },
+  {
+    "_id": 112,
+    "name": "Table",
+    "category": "Furniture",
+    "price": 250.0,
+    "stock": 80
+  },
+  {
+    "_id": 113,
+    "name": "Chair",
+    "category": "Furniture",
+    "price": 100.0,
+    "stock": 150
+  },
+  {
+    "_id": 114,
+    "name": "Bookshelf",
+    "category": "Furniture",
+    "price": 150.0,
+    "stock": 90
+  },
+  {
+    "_id": 115,
+    "name": "Bed",
+    "category": "Furniture",
+    "price": 400.0,
+    "stock": 40
+  },
+  {
+    "_id": 116,
+    "name": "Shirt",
+    "category": "Clothing",
+    "price": 25.0,
+    "stock": 500
+  },
+  {
+    "_id": 117,
+    "name": "Pants",
+    "category": "Clothing",
+    "price": 40.0,
+    "stock": 300
+  },
+  {
+    "_id": 118,
+    "name": "Shoes",
+    "category": "Clothing",
+    "price": 60.0,
+    "stock": 200
+  },
+  {
+    "_id": 119,
+    "name": "Jacket",
+    "category": "Clothing",
+    "price": 80.0,
+    "stock": 150
+  },
+  {
+    "_id": 120,
+    "name": "Sweater",
+    "category": "Clothing",
+    "price": 50.0,
+    "stock": 180
+  }
+]
