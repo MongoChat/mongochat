@@ -2,6 +2,11 @@ import express from "express";
 import bodyParser from "body-parser";
 import colors from "colors";
 import "dotenv/config";
+import Groq from "groq-sdk";
+
+export const GroqClient = new Groq({
+  apiKey: process.env.GROQ_API_TOKEN,
+});
 
 import routes from "./routes.js";
 
