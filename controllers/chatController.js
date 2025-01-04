@@ -1,8 +1,14 @@
 import asyncHandler from "express-async-handler";
 import { MongoClient } from "mongodb";
 import generateToken from "../utils/generateToken.js";
-import { generateQuery, getDBName, validateURI } from "../utils/common.js";
+import {
+  generateQuery,
+  getCollectionMetaData,
+  getDBName,
+  validateURI,
+} from "../utils/common.js";
 import vm from "vm";
+import { redis } from "../index.js";
 
 // const mongoURI = "mongodb://localhost:27017/test";
 
@@ -19,13 +25,18 @@ export const validateMongoURI = asyncHandler(async (req, res) => {
 });
 
 /**
- * @route   POST /api/connect
+ * @route   POST /api/connect-mongodb
  * @desc    Connect to MongoDB, validate URI, and return a token if successful
- * @access  Public
+ * @access  Private
  */
 export const connectMongoDB = asyncHandler(async (req, res) => {
   const { uri } = req.body;
+  const user = req.user;
   const { statusCode, message } = await validateURI(uri);
+
+  // cache collection metadata for prompt context
+  const metaData = await getCollectionMetaData(uri);
+  await redis.set(user._id, metaData);
 
   if (statusCode == 200) {
     return res.status(200).json({
@@ -36,6 +47,26 @@ export const connectMongoDB = asyncHandler(async (req, res) => {
   }
 
   res.status(statusCode).json({ message });
+});
+
+/**
+ * @route   POST /api/disconnect-mongodb
+ * @desc    Disconnect MongoDB
+ * @access  Private
+ */
+export const disconnectDB = asyncHandler(async (req, res) => {
+  try {
+    const user = req.user;
+    await redis.del(user._id);
+
+    res.status(200).json({
+      message: "DB disconnected",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong while disconnecting",
+    });
+  }
 });
 
 /**

@@ -94,3 +94,39 @@ const transformQuery = async (queryString) => {
     throw new Error("Invalid MongoDB shell query format");
   }
 };
+
+export const getCollectionMetaData = async (uri) => {
+  try {
+    const client = new MongoClient(uri);
+    await client.connect();
+
+    const db = client.db();
+
+    const collections = await db.listCollections().toArray();
+
+    const metadata = {};
+
+    for (const collection of collections) {
+      const collectionName = collection.name;
+      const sampleData = await db.collection(collectionName).findOne();
+
+      if (sampleData) {
+        metadata[collectionName] = Object.keys(sampleData).reduce(
+          (schema, key) => {
+            schema[key] = typeof sampleData[key];
+            return schema;
+          },
+          {}
+        );
+      } else {
+        metadata[collectionName] = {};
+      }
+    }
+
+    await client.close();
+
+    return JSON.stringify(metadata);
+  } catch (error) {
+    throw new Error(`Failed to get collection metadata: ${error.message}`);
+  }
+};

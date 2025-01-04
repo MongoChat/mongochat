@@ -4,6 +4,7 @@ import colors from "colors";
 import "dotenv/config";
 import Groq from "groq-sdk";
 import cors from "cors";
+import Redis from "ioredis";
 import connectDB from "./utils/dbConnect.js";
 
 import chatRoutes from "./routes/chatRoutes.js";
@@ -15,6 +16,8 @@ connectDB();
 export const GroqClient = new Groq({
   apiKey: process.env.GROQ_API_TOKEN,
 });
+
+export const redis = new Redis();
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));

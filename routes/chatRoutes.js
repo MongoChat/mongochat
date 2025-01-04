@@ -1,6 +1,7 @@
 import express from "express";
 import {
   connectMongoDB,
+  disconnectDB,
   executeQuery,
   testToken,
   validateMongoURI,
@@ -11,6 +12,7 @@ const router = express.Router();
 
 router.route("/validate-connection-url").post(validateMongoURI);
 router.route("/connect-mongodb").post(authProtect, connectMongoDB);
+router.route("/disconnect-mongodb").post(authProtect, disconnectDB);
 router
   .route("/test-token")
   .get(authProtect, clientConnectionProtect, testToken);
