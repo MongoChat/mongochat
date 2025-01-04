@@ -62,7 +62,7 @@ export const generateQuery = async (message) => {
       model: "llama3-8b-8192",
     });
 
-    // console.log("LOG 1: ", chatCompletion.choices[0].message.content);
+    console.log("LOG 1: ", chatCompletion.choices[0].message.content);
 
     const query = await extractQuery(chatCompletion.choices[0].message.content);
     executeableQuery = await transformQuery(query);

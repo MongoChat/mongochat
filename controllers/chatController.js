@@ -1,8 +1,7 @@
-import axios from "axios";
 import asyncHandler from "express-async-handler";
 import { MongoClient } from "mongodb";
-import generateToken from "./utils/generateToken.js";
-import { generateQuery, getDBName, validateURI } from "./utils/common.js";
+import generateToken from "../utils/generateToken.js";
+import { generateQuery, getDBName, validateURI } from "../utils/common.js";
 import vm from "vm";
 
 // const mongoURI = "mongodb://localhost:27017/test";
@@ -29,8 +28,9 @@ export const connectMongoDB = asyncHandler(async (req, res) => {
   const { statusCode, message } = await validateURI(uri);
 
   if (statusCode == 200) {
-    res.status(200).json({
-      token: generateToken(uri),
+    return res.status(200).json({
+      db: getDBName(uri),
+      connectionToken: generateToken(uri),
       message: "success",
     });
   }
@@ -65,7 +65,7 @@ export const executeQuery = asyncHandler(async (req, res) => {
   // const uri = "mongodb://localhost:27017/test";
   try {
     const command = await generateQuery(message);
-    // console.log("LOG 2 : ", command);
+    console.log("LOG 2 : ", command);
     const dbName = getDBName(uri);
 
     const client = new MongoClient(uri);
