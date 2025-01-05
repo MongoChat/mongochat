@@ -89,14 +89,14 @@ export const testToken = asyncHandler(async (req, res) => {
  * @desc    make LLM model API call to process natural language into a DB query
  * @access  Private
  */
-
 export const executeQuery = asyncHandler(async (req, res) => {
   const { message } = req.body;
   const uri = req.mongoURI;
+  const user = req.user;
   // const uri = "mongodb://localhost:27017/test";
   try {
-    const command = await generateQuery(message);
-    console.log("LOG 2 : ", command);
+    const command = await generateQuery(message, user._id);
+    // console.log("LOG 2 : ", command);
     const dbName = getDBName(uri);
 
     const client = new MongoClient(uri);

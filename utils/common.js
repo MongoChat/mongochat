@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import { GroqClient } from "../index.js";
+import { GroqClient, redis } from "../index.js";
 
 export const getDBName = (uri) => {
   const parsedUrl = new URL(uri);
@@ -48,10 +48,26 @@ const extractQuery = (string) => {
   return null;
 };
 
-export const generateQuery = async (message) => {
+export const generateQuery = async (message, userId) => {
   let executeableQuery = null;
   try {
-    const prompt = `convert natural language to a mongodb query without explaination: ${message}`;
+    const collectionMetadata = await redis.get(userId); // get metadata for context setting in prompt
+    const prompt = `You are an expert MongoDB assistant. Convert the following natural language request into a MongoDB query. 
+
+                    ### Format Rules:
+                    1. Use case-insensitive matching for string comparisons by using the '$regex' operator with the '$option' 'i'.
+                    2. Always start the query with 'db.collection('<collection_name>')' where '<collection_name>' is the relevant collection.
+                    3. Use proper MongoDB query syntax without any extra spaces or newlines.
+                    4. Do not include explanations or any additional text.
+
+                    Here is the schema of the database:
+
+                    ${collectionMetadata}
+
+                    Natural language request: ${message}
+
+                    Your response should only contain the MongoDB query in the exact format as mentioned.`;
+
     const chatCompletion = await GroqClient.chat.completions.create({
       messages: [
         {
@@ -62,9 +78,10 @@ export const generateQuery = async (message) => {
       model: "llama3-8b-8192",
     });
 
-    console.log("LOG 1: ", chatCompletion.choices[0].message.content);
+    const query = chatCompletion.choices[0].message.content;
+    // console.log("LOG 1: ", chatCompletion.choices[0].message.content);
 
-    const query = await extractQuery(chatCompletion.choices[0].message.content);
+    // const query = await extractQuery(chatCompletion.choices[0].message.content);
     executeableQuery = await transformQuery(query);
   } catch (error) {
     throw new Error(error);
