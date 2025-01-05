@@ -18,6 +18,6 @@ router
   .get(authProtect, clientConnectionProtect, testToken);
 router
   .route("/execute-query")
-  .get(authProtect, clientConnectionProtect, executeQuery);
+  .post(authProtect, clientConnectionProtect, executeQuery);
 
 export default router;
