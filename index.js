@@ -18,6 +18,9 @@ export const GroqClient = new Groq({
 });
 
 export const redis = new Redis();
+redis.on("ready", () => {
+  console.log("Redis is running on port 6379".yellow.underline);
+});
 
 app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
