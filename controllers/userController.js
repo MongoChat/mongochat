@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 import generateToken from "../utils/generateToken.js";
+import { getGoogleUserInfo } from "../utils/common.js";
 
 /**
  * @route   POST /api/users/login
@@ -10,7 +11,10 @@ import generateToken from "../utils/generateToken.js";
 
 export const signupOrLoginUser = asyncHandler(async (req, res) => {
   try {
-    const { email, name, picture, id } = req.body;
+    const { access_token } = req.body;
+
+    const userinfo = await getGoogleUserInfo(access_token);
+    const { email, name, picture, id } = userinfo;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -33,7 +37,9 @@ export const signupOrLoginUser = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({
-      message: "Something went wrong",
+      message: error.response.data.error.message
+        ? error.response.data.error.message
+        : "Something went wrong",
     });
   }
 });

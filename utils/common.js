@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
 import { GroqClient, redis } from "../index.js";
+import axios from "axios";
 
 export const getDBName = (uri) => {
   const parsedUrl = new URL(uri);
@@ -145,5 +146,23 @@ export const getCollectionMetaData = async (uri) => {
     return JSON.stringify(metadata);
   } catch (error) {
     throw new Error(`Failed to get collection metadata: ${error.message}`);
+  }
+};
+
+const GOOGLE_AUTH_API = process.env.GOOGLE_AUTH_API;
+export const getGoogleUserInfo = async (access_token) => {
+  try {
+    const response = await axios.get(
+      `${GOOGLE_AUTH_API}/userinfo?access_token=${access_token}`,
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          Accept: "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 };
