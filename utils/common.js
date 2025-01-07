@@ -95,7 +95,7 @@ const transformQuery = async (queryString) => {
     throw new Error("Query must be a string");
   }
 
-  const regex = /^db\.(\w+)(\.\w+)\((.*)\)$/;
+  const regex = /^db\.(\w+)(\.\w+)\((.*)\);?$/;
   const match = queryString.match(regex);
 
   if (match) {
